@@ -18,9 +18,13 @@ import abc from "../images/abc.jpg";
 import "./home.css"
 
 const Home = () => {
+  const wakandaCss={
+    textAlign :"center"
+  };
   return (
     <>
-      <h1 className='header'>abc ever</h1>
+      <h1 className='header'>Rajan Chaudhary</h1>
+      <p style={wakandaCss}>This is a great pic</p>
       <div className='img_div'>
       <img src= {abc} alt="wakanda" />
       <img src= {abc} alt="wakanda" />
