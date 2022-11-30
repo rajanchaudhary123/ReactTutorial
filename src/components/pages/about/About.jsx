@@ -1,11 +1,8 @@
 import React from 'react'
-import "./About.css"
 
 const About = () => {
   return (
-    <>
-    <div className='myAbout'></div>
-    </>
+    <div><h1> My name is Rajan Chaudhary</h1></div>
   )
 }
 
