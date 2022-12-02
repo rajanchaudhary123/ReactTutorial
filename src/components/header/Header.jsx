@@ -50,7 +50,9 @@ const myStyle= {
             
           </Nav>
           <Form className="d-flex">
+          <NavLink to="/login">
           <Button variant="outline-primary">Login</Button>{' '}
+          </NavLink>
           </Form>
         </Navbar.Collapse>
       </Container>
