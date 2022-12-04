@@ -8,7 +8,9 @@ import Contact from "./components/pages/contact/Contact";
 import Pagenotfound from "./components/pages/notfound/Pagenotfound";
 import Login from "./components/pages/user/Login";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
-import { Component } from "react";
+import SchoolForm from './components/schoolform/schoolForm'
+// import { Component } from "react";
+// import Form from "./components/form/Form";
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
           <Route exact path="/" element={<ProtectedRoute Component={Home} />} />
           <Route path="/about" element={<ProtectedRoute Component={About} />} />
           <Route path="/contact" element={<ProtectedRoute Component={Contact} />} />
+          <Route path="/schoolform" element={<SchoolForm/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path="*" element={<Pagenotfound />} />
           
