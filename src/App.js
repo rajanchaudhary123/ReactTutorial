@@ -7,8 +7,8 @@ import Footer from "./components/footer/Footer";
 import Contact from "./components/pages/contact/Contact";
 import Pagenotfound from "./components/pages/notfound/Pagenotfound";
 import Login from "./components/pages/user/Login";
-import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
-import SchoolForm from './components/schoolform/schoolForm'
+import SchoolForm from './components/schoolform/schoolForm';
+import Service from "./components/pages/Services/service";
 // import { Component } from "react";
 // import Form from "./components/form/Form";
 
@@ -19,9 +19,10 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route exact path="/" element={<ProtectedRoute Component={Home} />} />
-          <Route path="/about" element={<ProtectedRoute Component={About} />} />
-          <Route path="/contact" element={<ProtectedRoute Component={Contact} />} />
+          <Route exact path="/" element={<Home/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/contact" element={<Contact/>} />
+          <Route path="/services" element={<Service/>} />
           <Route path="/schoolform" element={<SchoolForm/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path="*" element={<Pagenotfound />} />
