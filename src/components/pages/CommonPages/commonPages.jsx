@@ -9,7 +9,7 @@ const CommonPages = (props) => {
               <div class="container">
       <div class="row">
         <div class="col">
-          {props.title}
+          <h1 style={{color:"green"}}>{props.title}</h1>
           <h1 style={{color:"red"}}>HAMRO KHANA</h1>
           <h2>{props.description}</h2>
           <NavLink to={props.visit}><Button variant="outline-primary" >{props.btnHome}</Button>{' '}</NavLink> 

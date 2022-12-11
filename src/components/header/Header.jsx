@@ -39,7 +39,7 @@ const myStyle= {
             <NavLink style={myStyle} to="/schoolform">Form</NavLink>
           </Nav>
           <Form className="d-flex">
-          <NavLink to="/login">
+          <NavLink to="/register">
           <Button variant="outline-primary">Login</Button>{' '}
           </NavLink>
           </Form>

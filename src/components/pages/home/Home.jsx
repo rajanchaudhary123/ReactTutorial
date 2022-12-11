@@ -63,8 +63,8 @@ const Home = () => {
   return (
     <>
       <CommonPages
-        title="we Started Our Statup with"
-        description="We trust in our Hardwork Ans Services"
+        title="We Started Our Startup with"
+        description="We trust in our Hardwork And Services"
         btnHome="Get Services"
         imgHome={fish}
         visit="/services"
@@ -75,7 +75,7 @@ const Home = () => {
       <div className="container-fluid mb-5">
         <div className="row">
           <div className="col-10 mx-auto">
-            <div className="row">
+            <div className="row gy-4">
               {dealData.map((curValue) => {
                 return (
                   <HomeCard
