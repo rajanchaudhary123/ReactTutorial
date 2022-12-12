@@ -1,17 +1,19 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
+import Login from './Login';
 
 const Register = () => {
-    const [data,setData]= useState(0)
-    const handleSubmit=()=>{
-        setData(data+1);
-    };
-console.warn("___________");
+    const [count,setCount]= useState(0);
+    const [data,setData]= useState(10);
+    useEffect(()=>{
+      alert(`count number is : ${count}`);
+    },[count]);
   return (
     <>
     <div>
 
-        <h1>{data}</h1>
-        <button onClick={handleSubmit}>Click Me</button>
+        <Login count={count} data={data} />
+        <button onClick={()=>setCount(count+1)}>Click Me</button>
+        <button onClick={()=>setData(data+1)}>Click Me</button>
     </div>
     </>
   )
