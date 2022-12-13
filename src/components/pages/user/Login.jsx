@@ -1,10 +1,11 @@
-import React, { useEffect} from 'react'
+import React from 'react'
 //import { useNavigate } from 'react-router-dom'
 
-const Login = (props) => {
-  useEffect(()=>{
-    alert(`Count Number is: ${props.count}`)
-  },[props.count]);
+ const Login = (props) => {
+//   useEffect(()=>{
+//     alert(`Count Number is: ${props.count}`)
+//   },[props.count]);
+
     // const navigate= useNavigate();
     // const [email,setEmail]=useState("");
     // const handleLogin=()=>{
@@ -29,7 +30,7 @@ const Login = (props) => {
 
     <div>
       <h1>Count:{props.count}</h1>
-      <h1>Data:{props.data}</h1>
+            {/* <h1>Data:{props.data}</h1> */}
     </div>
     </>
   )
