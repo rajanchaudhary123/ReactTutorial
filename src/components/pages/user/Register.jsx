@@ -56,29 +56,58 @@
 
 // export default Register;
 
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
+
+// const Register = () => {
+//   const [count,setCount]=useState(0);
+
+//   useEffect(()=>{
+//     console.log("useEffect Runs")
+//     const interval=setInterval(() => {
+//      setCount((prev)=>prev+1); 
+//     }, 1000);
+
+//     return ()=>{
+//       clearInterval(interval);
+//       console.log("cleaning the effect");
+//     }
+//  },[]);
+
+// return(
+  
+
+//     <>
+//     <div>
+//       <h1>Count:{count}cleaning return function </h1>
+//     </div>
+    
+//     </>
+//   )
+// }
+
+// export default Register
+
+import React, { useCallback, useState } from 'react';
+import Login from "./Login";
 
 const Register = () => {
   const [count,setCount]=useState(0);
-
-  useEffect(()=>{
-    console.log("useEffect Runs")
-    const interval=setInterval(() => {
-     setCount((prev)=>prev+1); 
-    }, 1000);
-
-    return ()=>{
-      clearInterval(interval);
-      console.log("cleaning the effect");
-    }
- },[]);
-
-return(
+  const [todos,setTodo]=useState([]);
+  const handleIncrement=()=>{
+    setCount(count+1);
+  }
+  const AddTodo=useCallback(
+    () => {
+      setTodo((prev)=>[...prev,'new Entry'])
+    },[todos]);
   
 
+  return (
     <>
     <div>
-      <h1>Count:{count}cleaning return function </h1>
+      <Login todos={todos} AddTodo={AddTodo}/>
+      <h1>{count}</h1>
+      <button onClick={handleIncrement}>+</button>
     </div>
     
     </>
