@@ -27,7 +27,6 @@
 // // //   );
 // // // };
 
-
 // // const Register = () => {
 // //   const [show,setShow]=useState(false);
 // //   const inputRef= useRef(null);
@@ -49,7 +48,7 @@
 // //       <br/>
 // //       <p>{show? `your lucky number is :${inputRef.current.value}`:" "}</p>
 // //     </div>
-    
+
 // //     </>
 // //   )
 // // }
@@ -64,7 +63,7 @@
 // //   useEffect(()=>{
 // //     console.log("useEffect Runs")
 // //     const interval=setInterval(() => {
-// //      setCount((prev)=>prev+1); 
+// //      setCount((prev)=>prev+1);
 // //     }, 1000);
 
 // //     return ()=>{
@@ -74,13 +73,12 @@
 // //  },[]);
 
 // // return(
-  
 
 // //     <>
 // //     <div>
 // //       <h1>Count:{count}cleaning return function </h1>
 // //     </div>
-    
+
 // //     </>
 // //   )
 // // }
@@ -100,7 +98,6 @@
 //     () => {
 //       setTodo((prev)=>[...prev,'new Entry'])
 //     },[todos]);
-  
 
 //   return (
 //     <>
@@ -109,7 +106,7 @@
 //       <h1>{count}</h1>
 //       <button onClick={handleIncrement}>+</button>
 //     </div>
-    
+
 //     </>
 //   )
 // }
@@ -126,7 +123,6 @@
 //     .get("https://jsonplaceholder.typicode.com/posts")
 //     .then((res)=>setMyData(res.data))
 //     .catch((error)=>console.log(error));
-
 
 //   },[])
 //   return (
@@ -211,60 +207,103 @@
 
 // export default Register
 
-import axios from 'axios';
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import {toast} from 'react-toastify';
+import axios from "axios";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Spinner from 'react-bootstrap/Spinner';
 
 const Register = () => {
-  const navigate=useNavigate();
-  const [fullName,setFullName]=useState("");
-  const [mobile,setMobile]=useState("");
-  const [email,setEmail]=useState("");
-  const [password,setPassword]=useState('');
-  const [confirmPassword,setConfirmPassword]=useState("");
-  const[avatar,setAvatar]=useState('');
-  const handleChange=(e)=>{
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [avatar, setAvatar] = useState("");
+
+  const[isLoading,setIsLoading]=useState(false);
+
+  const [errors, setErrors] = useState({});
+  const handleChange = (e) => {
     e.preventDefault();
-    setAvatar(e.target.files[0])
+    setAvatar(e.target.files[0]);
   };
-  const handleSubmit=async(e)=>{
+  const validForm = () => {
+    let newErrors = {};
+    if (!fullName) {
+      newErrors.fullName = "fullname is required";
+    }
+
+    if (!email) {
+      newErrors.email = "email is required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      newErrors.email = "invalid Email";
+    }
+    if (!mobile) {
+      newErrors.mobile = "mobile is required";
+    } else if (mobile.length !== 10) {
+      newErrors.mobile = "Mobile number must be of 10";
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 10) {
+      newErrors.password = "password must be 10 character";
+    }
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Confirm Password is required";
+    } else if (confirmPassword.length < 10) {
+      newErrors.confirmPassword = "Confirm Password must be 10 character";
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "password doesnot match";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const config={
-      headers:{
-        "Content-Type":"multiport/form-data"
+    const config = {
+      headers: {
+        "Content-Type": "multiport/form-data",
+      },
+    };
+    const registerData = new FormData();
+    registerData.append("fullName", fullName);
+    registerData.append("email", email);
+    registerData.append("mobile", mobile);
+    registerData.append("password", password);
+    registerData.append("confirmPassword", confirmPassword);
+    registerData.append("avatar", avatar);
+
+    if (validForm()) {
+      try {
+        setIsLoading(true);
+        const res = await axios.post(
+          "http://localhost:5000/api/register",
+          registerData,
+          config
+        );
+        console.log(res);
+        //if (res.data.success===true){
+        toast.success(res.data.message);
+        navigate("/login");
+        //setTimeout(()=>{navigate("/login")},2000)
+       // }
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+        setErrors("");
+        toast.error("Internal Server Error");
       }
+    } else {
+      return toast.error("Invalid Form");
     }
-    const registerData= new FormData();
-    registerData.append("fullName",fullName);
-    registerData.append("email",email);
-    registerData.append("mobile",mobile);
-    registerData.append("password",password);
-    registerData.append("confirmPassword",confirmPassword);
-    registerData.append("avatar",avatar);
-
-
-   try{
-    const res=await axios.post("http://localhost:5000/api/register",registerData,config);
-    console.log(res);
-    toast.success(res.data.message);
-    navigate("/login");
-
-
-    }
-    
- 
-   catch(error){
-    console.log(error);
-    toast.error("Internal Server Error");
-
-   }
-  }
-
+  };
 
   return (
     <>
-    <section className="vh-100 gradient-custom">
+      <section className="vh-100 gradient-custom">
         <div className="container py-5 h-100">
           <div className="row justify-content-center align-items-center h-100">
             <div className="col-12 col-lg-9 col-xl-7">
@@ -281,9 +320,10 @@ const Register = () => {
                             type="text"
                             name="fullName"
                             className="form-control form-control-lg"
-                            onChange={(e)=>setFullName(e.target.value)}
                             value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
                           />
+                          {errors.fullName && <span style={{color:"red"}}>{errors.fullName}</span>}
                           <label className="form-label" for="fullName">
                             Full Name
                           </label>
@@ -295,9 +335,10 @@ const Register = () => {
                             type="text"
                             name="Email"
                             className="form-control form-control-lg"
-                            onChange={(e)=>setEmail(e.target.value)}
                             value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                           />
+                          {errors.email && <span style={{color:"red"}}>{errors.email}</span>}
                           <label className="form-label" for="Email">
                             Email
                           </label>
@@ -310,9 +351,10 @@ const Register = () => {
                           type="text"
                           name="mobileNumber"
                           className="form-control form-control-lg"
-                          onChange={(e)=>setMobile(e.target.value)}
                           value={mobile}
+                          onChange={(e) => setMobile(e.target.value)}
                         />
+                        {errors.mobile && <span style={{color:"red"}}>{errors.mobile}</span>}
                         <label className="form-label" for="mobileNumber">
                           Mobile Number
                         </label>
@@ -325,9 +367,10 @@ const Register = () => {
                             type="password"
                             name="password"
                             className="form-control form-control-lg"
-                            onChange={(e)=>setPassword(e.target.value)}
                             value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
+                          {errors.password && <span style={{color:"red"}}>{errors.password}</span>}
                           <label className="form-label" for="password">
                             Password
                           </label>
@@ -339,9 +382,10 @@ const Register = () => {
                             type="password"
                             name="confirmPassword"
                             className="form-control form-control-lg"
-                            onChange={(e)=>setConfirmPassword(e.target.value)}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             value={confirmPassword}
                           />
+                          {errors.confirmPassword && <span style={{color:"red"}}>{errors.confirmPassword}</span>}
                           <label className="form-label" for="confirmPassword">
                             Confirm Password
                           </label>
@@ -351,7 +395,11 @@ const Register = () => {
 
                     <div className="row">
                       <div className="col-12">
-                        <input type="file" name="avatar" onChange={handleChange}/>
+                        <input
+                          type="file"
+                          name="avatar"
+                          onChange={handleChange}
+                        />
                       </div>
                     </div>
 
@@ -362,22 +410,21 @@ const Register = () => {
                         value="Submit"
                         onClick={handleSubmit}
                       />
+                      {isLoading &&<Spinner animation="border" size="sm"/>}
                     </div>
                   </form>
-                  <p >
-                  Already have a account?
-          <NavLink to="/login">Login</NavLink>
-          </p>
-        
+                  <p>
+                    Already have a account?
+                    <NavLink to="/login">Login</NavLink>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
