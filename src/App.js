@@ -11,6 +11,7 @@ import SchoolForm from './components/schoolform/schoolForm';
 import Service from "./components/pages/Services/service";
 import Register from "./components/pages/user/Register";
 import { ToastContainer } from 'react-toastify';
+import Profile from "./components/pages/Profile/profile";
 // import { Component } from "react";
 // import Form from "./components/form/Form";
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/services" element={<Service/>} />
           <Route path="/schoolform" element={<SchoolForm/>}/>
           <Route path="/login" element={<Login/>} />
+          <Route path="/profile" element={<Profile/>} />
           <Route path="*" element={<Pagenotfound />} />
           
         </Routes>

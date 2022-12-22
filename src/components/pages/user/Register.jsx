@@ -284,17 +284,16 @@ const Register = () => {
           registerData,
           config
         );
-        console.log(res);
-        //if (res.data.success===true){
+        if (res.data.success===true){
         toast.success(res.data.message);
         navigate("/login");
-        //setTimeout(()=>{navigate("/login")},2000)
-       // }
+        setInterval(()=>{navigate("/login")},2000)
+        }
       } catch (error) {
+        const msg= await error.response.data.message;
         setIsLoading(false);
-        console.log(error);
         setErrors("");
-        toast.error("Internal Server Error");
+        toast.error(msg);
       }
     } else {
       return toast.error("Invalid Form");

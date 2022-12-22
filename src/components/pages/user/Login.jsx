@@ -57,11 +57,72 @@
 
 // export default memo(Login)
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+ import { Link, useNavigate } from 'react-router-dom';
+ import axios from "axios";
+ import React, { useState } from "react";
+ import { toast } from "react-toastify";
 
-const Login = () => {
+
+ const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [errors,setErrors] = useState({});
+
+  const validForm = () =>{
+    let newErrors = {};
+    if(!email){
+      newErrors.email="Email is required";
+    }
+    else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)){
+      newErrors.email = "Email is invalid"
+    }
+    if(!password){
+      newErrors.password = "Password is required";
+    }
+    else if(password.length < 10){
+      newErrors.password = "Password must be more than 10 characters";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+
+  }
+
+  const handleSubmit = async (e)=>{
+        e.preventDefault();
+    
+      
+        if(validForm()){
+          try {
+
+            var res = await axios.post(
+              "http://localhost:5000/api/login",
+              {email,
+              password}
+              
+            );
+            if(res.data.success===true){
+              toast.success(res.data.message);
+              localStorage.setItem("token",res.data.token)
+              setInterval(()=>{
+                navigate("/profile");
+              },2000)
+            }
+          
+            toast.success(res.data.message);
+            
+          } catch (error) {
+            const msg = await error.response.data.message;
+            toast.error(msg)
+          }
+        }
+    
+        
+        
+      }
   return (
+    
     <>
     <section className="vh-100 gradient-custom">
         <div className="container py-5 h-100">
@@ -79,8 +140,11 @@ const Login = () => {
                           <input
                             type="text"
                             name="Email"
+                             value={email}
                             className="form-control form-control-lg"
+                              onChange={(e) => setEmail(e.target.value)}
                           />
+                          <span style={{color:"red"}}>{errors.email}</span>
                           <label className="form-label" for="Email">
                             Email
                           </label>
@@ -94,8 +158,12 @@ const Login = () => {
                           <input
                             type="password"
                             name="password"
+                            value={password}
                             className="form-control form-control-lg"
+                            onChange={(e) => setPassword(e.target.value)}
+
                           />
+                          <span style={{color:"red"}}>{errors.password}</span>
                           <label className="form-label" for="password">
                             Password
                           </label>
@@ -108,9 +176,11 @@ const Login = () => {
                       <input
                         className="btn btn-primary btn-lg"
                         type="submit"
-                        value="Login "
+                        value="Login"
+                        onClick={handleSubmit}
                       />
                     </div>
+                    
                   </form>
                   <p style={{marginTop:"50px"}}>Not have an account <Link to="/register" style={{textDecoration:"none"}}>Click Here</Link></p>
                 </div>
@@ -125,3 +195,4 @@ const Login = () => {
 }
 
 export default Login
+
