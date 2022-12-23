@@ -11,7 +11,7 @@ import SchoolForm from './components/schoolform/schoolForm';
 import Service from "./components/pages/Services/service";
 import Register from "./components/pages/user/Register";
 import { ToastContainer } from 'react-toastify';
-import Profile from "./components/pages/Profile/profile";
+import Profile from "./components/pages/Profile/Profile";
 // import { Component } from "react";
 // import Form from "./components/form/Form";
 

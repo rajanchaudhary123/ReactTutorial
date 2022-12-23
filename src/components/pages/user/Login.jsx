@@ -57,7 +57,7 @@
 
 // export default memo(Login)
 
- import { Link, useNavigate } from 'react-router-dom';
+ import { NavLink, useNavigate } from 'react-router-dom';
  import axios from "axios";
  import React, { useState } from "react";
  import { toast } from "react-toastify";
@@ -182,7 +182,7 @@
                     </div>
                     
                   </form>
-                  <p style={{marginTop:"50px"}}>Not have an account <Link to="/register" style={{textDecoration:"none"}}>Click Here</Link></p>
+                  <p style={{marginTop:"50px"}}>Not have an account <NavLink to="/register" style={{textDecoration:"none"}}>Click Here</NavLink></p>
                 </div>
               </div>
             </div>
